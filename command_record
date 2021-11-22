@@ -1,0 +1,16 @@
+module load miniconda3/4.7.12.1
+source activate anvio-7
+#contigs reformat
+for name in $(cat name_list_1122.txt)
+do
+anvi-script-reformat-fasta EJH-MT-"$name".contigs.fa -o ../Contigs_reformat/EJH-MT-"$name".reformat_contigs.fa -l 1000 --simplify-names
+done
+
+#bowtie2
+
+
+
+
+
+
+
