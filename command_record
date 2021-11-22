@@ -25,7 +25,8 @@ for name in $(cat name_list_1122.txt)
 > samtools index ../Bowtie_results/bams/EJH_MT_"$name"_anvio.bam
 > done
 
-
+#convert sam to bam
+samtools view -h EJH_MT_042220_anvio.bam > EJH_MT_042220_anvio2.sam
 
 
 
