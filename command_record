@@ -32,13 +32,13 @@ module load bowtie2/2.3.5
 module load miniconda3/4.7.12.1
 source activate anvio-7
 
-filename='062020'
+filename="062020"
 anvi-script-reformat-fasta EJH-MT-"$filename".contigs.fa -o EJH-MT-"$filename".reformat_contigs.fa -l 1000 --simplify-names
-bowtie2-build EJH-MT-'$filename'.reformat_contigs.fa EJH-MT-'$filename'.reformat_contigs.bowtie.db -p 4
-bowtie2 -x EJH-MT-'$filename'.reformat_contigs.bowtie.db -q -1 ../../DNA_datasets/EJH-MT-'$filename'-DNA_R1_paired.fastq.gz -2 ../../DNA_datasets/EJH-MT-'$filename'-DNA_R2_paired.fastq.gz --no-unal -p 8 -S EJH_MT_'$filename'_anvio.sam
-samtools view -b -o EJH_MT_'$filename'_anvio.raw.bam EJH_MT_'$filename'_anvio.sam
-samtools sort -o EJH_MT_'$filename'_anvio.bam EJH_MT_'$filename'_anvio.raw.bam
-samtools index EJH_MT_'$filename'_anvio.bam
+bowtie2-build EJH-MT-"$filename".reformat_contigs.fa EJH-MT-"$filename".reformat_contigs.bowtie.db -p 4
+bowtie2 -x EJH-MT-"$filename".reformat_contigs.bowtie.db -q -1 ../../DNA_datasets/EJH-MT-"$filename"-DNA_R1_paired.fastq.gz -2 ../../DNA_datasets/EJH-MT-"$filename"-DNA_R2_paired.fastq.gz --no-unal -p 8 -S EJH_MT_"$filename"_anvio.sam
+samtools view -b -o EJH_MT_"$filename"_anvio.raw.bam EJH_MT_"$filename"_anvio.sam
+samtools sort -o EJH_MT_"$filename"_anvio.bam EJH_MT_"$filename"_anvio.raw.bam
+samtools index EJH_MT_"$filename"_anvio.bam
 
 #convert sam to bam
 samtools view -h EJH_MT_042220_anvio.bam > EJH_MT_042220_anvio2.sam
@@ -58,22 +58,26 @@ anvi-profile -c EJH-MT-"$filename".reformat_contigs.db -i ../Bowtie_results/EJH_
 
 #external genome binning by metabat
 
-for bin_number in EJH_MT_042720_bin.*.fa
+for bin_number in EJH_MT_062120_bin.*.fa
 do name=$(basename $bin_number .fa)
 grep ">" $bin_number | tr -d ">" | sed "s/$/ $name/" | tr " " "\t"
-done > ../EJH_MT_042720_metabat-collection.tsv
+done > ../EJH_MT_062120_metabat-collection.tsv
 
-sed -i "_bak" "s/bin./bin_/g" *.tsv #download to local laptop
+#local laptop
+cd /Volumes/Changzhi_WD4T/Chapter2_datasets/Genome_binning/
+sed -i "_bak" "s/bin./bin_/g" EJH_MT_062120_metabat-collection.tsv #download to local laptop
 
 anvi-import-collection -c EJH-MT-"$filename".reformat_contigs.db -p ./EJH_MT_"$filename"_anvio.bam-ANVIO_PROFILE/PROFILE.db -C metabat --contigs-mode EJH_MT_"$filename"_metabat-collection.tsv
 
 hostname
-anvi-refine -p ./EJH_MT_"$filename"_anvio.bam-ANVIO_PROFILE/PROFILE.db -c EJH-MT-"$filename".anvio.db -C metabat --server-only --ip-address cn506-02-r.ibex.kaust.edu.sa
+#anvi-refine -p ./EJH_MT_"$filename"_anvio.bam-ANVIO_PROFILE/PROFILE.db -c EJH-MT-"$filename".anvio.db -C metabat --server-only --ip-address cn506-02-r.ibex.kaust.edu.sa
+anvi-refine -p ./EJH_MT_"$filename"_anvio.bam-ANVIO_PROFILE/PROFILE.db -c EJH-MT-"$filename".reformat_contigs.db -C metabat --server-only --ip-address "$host_name".ibex.kaust.edu.sa
+
 http://cn513-10-l.ibex.kaust.edu.sa:8082/ 
 cn513-05-l
 #!!! store refine bins in the database, this step took a long time, make sure it’s truly stored before terminate the server. !!!
 
-anvi-summarize -p ./EJH_MT_042820_anvio.bam-ANVIO_PROFILE/PROFILE.db -c EJH-MT-042820.reformat_contigs.db -C metabat -o EJH_MT_042820_summary
+anvi-summarize -p ./EJH_MT_"$filename"_anvio.bam-ANVIO_PROFILE/PROFILE.db -c EJH-MT-"$filename".reformat_contigs.db -C metabat -o EJH_MT_"$filename"_summary
 for i in Refined_*; do cp ./"$i"/*-contigs.fa ./Genome_bins/; done
 
 
