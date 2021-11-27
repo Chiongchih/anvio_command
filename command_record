@@ -27,6 +27,7 @@ for name in $(cat name_list_1122.txt)
 
 
 #quick start
+salloc -n 1 -N 1 --time=12:00:00 --mem=60G  bash -l
 module load samtools/1.8
 module load bowtie2/2.3.5
 module load miniconda3/4.7.12.1
@@ -56,17 +57,26 @@ anvi-get-sequences-for-gene-calls -c EJH-MT-"$filename".reformat_contigs.db -o .
 anvi-import-taxonomy-for-genes -c EJH-MT-"$filename".reformat_contigs.db -i ../centrifuge_reports/EJH-MT-"$filename".anvio_centrifuge_report.txt ../centrifuge_reports/EJH-MT-"$filename".anvio_centrifuge_hits.tsv -p centrifuge
 anvi-profile -c EJH-MT-"$filename".reformat_contigs.db -i ../Bowtie_results/EJH_MT_"$filename"_anvio.bam -T 4
 
+salloc -n 1 -N 1 --time=12:00:00 --mem=60G  bash -l
+module load miniconda3/4.7.12.1
+source activate anvio-7
+
 #external genome binning by metabat
 
-for bin_number in EJH_MT_062120_bin.*.fa
+filename="062920"
+cd ./EJH_MT_"$filename"_bin/
+for bin_number in EJH_MT_"$filename"_bin.*.fa
 do name=$(basename $bin_number .fa)
 grep ">" $bin_number | tr -d ">" | sed "s/$/ $name/" | tr " " "\t"
-done > ../EJH_MT_062120_metabat-collection.tsv
+done > ../EJH_MT_"$filename"_metabat-collection.tsv
+cd ..
+
 
 #local laptop
 cd /Volumes/Changzhi_WD4T/Chapter2_datasets/Genome_binning/
 sed -i "_bak" "s/bin./bin_/g" EJH_MT_062120_metabat-collection.tsv #download to local laptop
 
+filename="051120"
 anvi-import-collection -c EJH-MT-"$filename".reformat_contigs.db -p ./EJH_MT_"$filename"_anvio.bam-ANVIO_PROFILE/PROFILE.db -C metabat --contigs-mode EJH_MT_"$filename"_metabat-collection.tsv
 
 hostname
