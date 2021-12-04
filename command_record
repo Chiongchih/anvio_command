@@ -91,9 +91,12 @@ anvi-summarize -p ./EJH_MT_"$filename"_anvio.bam-ANVIO_PROFILE/PROFILE.db -c EJH
 for i in Refined_*; do cp ./"$i"/*-contigs.fa ./Genome_bins/; done
 
 
-
-
-
-
+filename="060220"
+cd ./EJH_MT_"$filename"_summary/bin_by_bin/
+mkdir Genome_bins_"$filename"
+for i in Refined_*
+do
+cp "$i"/*.fa ./Genome_bins_"$filename"/
+done
 
 
