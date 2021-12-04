@@ -99,4 +99,6 @@ do
 cp "$i"/*.fa ./Genome_bins_"$filename"/
 done
 
+cd /ibex/scratch/wangc0c/PhD2/Anvio_datasets/anvio_dbs/anviodb_binned/
+
 
