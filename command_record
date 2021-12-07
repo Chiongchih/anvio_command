@@ -54,7 +54,7 @@ anvi-run-ncbi-cogs -c EJH-MT-"$filename".reformat_contigs.db -T 4
 anvi-get-sequences-for-gene-calls -c EJH-MT-"$filename".reformat_contigs.db -o ../centrifuge_reports/EJH-MT-"$filename".reformat_contigs.gene_calls.fa
 
 #modify and run centrifuge /ibex/scratch/wangc0c/PhD2/Anvio_datasets #runtime 30 min
-anvi-import-taxonomy-for-genes -c EJH-MT-"$filename".reformat_contigs.db -i ../centrifuge_reports/EJH-MT-"$filename".anvio_centrifuge_report.txt ../centrifuge_reports/EJH-MT-"$filename".anvio_centrifuge_hits.tsv -p centrifuge
+anvi-imwport-taxonomy-for-genes -c EJH-MT-"$filename".reformat_contigs.db -i ../centrifuge_reports/EJH-MT-"$filename".anvio_centrifuge_report.txt ../centrifuge_reports/EJH-MT-"$filename".anvio_centrifuge_hits.tsv -p centrifuge
 anvi-profile -c EJH-MT-"$filename".reformat_contigs.db -i ../Bowtie_results/EJH_MT_"$filename"_anvio.bam -T 4
 
 salloc -n 1 -N 1 --time=12:00:00 --mem=60G  bash -l
@@ -99,6 +99,52 @@ do
 cp "$i"/*.fa ./Genome_bins_"$filename"/
 done
 
+filename="062720"
+cd ./EJH_MT_"$filename"_summary/bin_by_bin/
+mkdir ../../Genome_bins_"$filename"
+for i in Refined_*
+do
+cp "$i"/*.fa ../../Genome_bins_"$filename"/
+done
+cd ../../
+
+
 cd /ibex/scratch/wangc0c/PhD2/Anvio_datasets/anvio_dbs/anviodb_binned/
+
+for filename in $(cat filenames_summarize.txt)
+do
+cd ./EJH_MT_"$filename"_summary/bin_by_bin/
+mkdir Genome_bins_"$filename"
+for i in Refined_*
+do
+cp ./"$i"/*.fa ./Genome_bins_"$filename"/
+done
+cd /ibex/scratch/wangc0c/PhD2/Anvio_datasets/anvio_dbs/anviodb_binned/
+done
+
+
+for filename in $(cat filenames_summarize.txt)
+do
+cp -r /ibex/scratch/wangc0c/PhD2/Anvio_datasets/anvio_dbs/anviodb_binned/EJH_MT_"$filename"_summary/bin_by_bin/Genome_bins_"$filename" /ibex/scratch/wangc0c/PhD2/Anvio_datasets/Checkm_GTDB/
+done
+
+
+for filename in $(cat filenames_summarize.txt)
+do
+cd ./Genome_bins_"$filename"
+for f in *.fa; do mv -- "$f" "${f%.fa}.fna"; done
+cd ..
+done
+
+filename="062220"
+cd ./Genome_bins_"$filename"
+for f in *.fa; do mv -- "$f" "${f%.fa}.fna"; done
+cd ..
+
+rename "s/Refined/EJH_MT_042720/" *
+
+
+
+
 
 
