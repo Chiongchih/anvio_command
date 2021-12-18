@@ -143,7 +143,7 @@ cd ..
 
 rename "s/Refined/EJH_MT_042720/" *
 
-
+scp wangc0c@ilogin.ibex.kaust.edu.sa:/ibex/scratch/wangc0c/PhD2/MAGs_bowtie/*.bam ./bams
 
 
 
