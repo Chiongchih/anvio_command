@@ -151,3 +151,16 @@ rgi load --card_json /home/wangc0c/Tools/CARD_rgi/card.json --local
 #number of file named with "070820.fa"#
 find . -name '*070820*.fa' | wc -l
 
+date="051120"
+mkdir "$date"
+mv *"$date"*.txt ./"$date"
+cd "$date"
+find . -type f -size +320c | wc -l
+cd ..
+
+
+
+
+
+
+
