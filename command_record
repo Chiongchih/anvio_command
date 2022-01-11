@@ -158,6 +158,10 @@ cd "$date"
 find . -type f -size +320c | wc -l
 cd ..
 
+###use of deepac###
+
+deepac predict -s EJH_MT_050520_8-contigs.fa
+deepac filter EJH_MT_050520_8-contigs.fa EJH_MT_050520_8-contigs_predictions.npy -t 0.95 -p -o EJH_MT_050520_8-contigs_predictions95.fasta
 
 
 
