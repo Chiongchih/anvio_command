@@ -164,6 +164,14 @@ deepac predict -s EJH_MT_050520_8-contigs.fa
 deepac filter EJH_MT_050520_8-contigs.fa EJH_MT_050520_8-contigs_predictions.npy -t 0.95 -p -o EJH_MT_050520_8-contigs_predictions95.fasta
 
 
+for i in *.output.txt
+do
+if grep -q beta-lactamase "$i"
+then echo j: $j
+((j=j+1))
+else echo no
+fi
+done
 
 
 
