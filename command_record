@@ -184,7 +184,7 @@ else ((j=j+1))
 fi
 done
 
-
+sed 's/^/E070920_28&/g' EJH_MT_070920_28-contigs.fa_VFGboc80.txt > EJH_MT_070920_28-contigs.fa_VFGboc80_for_merge.txt
 
 
 
