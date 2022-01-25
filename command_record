@@ -187,8 +187,13 @@ done
 sed 's/^/E070920_28&/g' EJH_MT_070920_28-contigs.fa_VFGboc80.txt > EJH_MT_070920_28-contigs.fa_VFGboc80_for_merge.txt
 
 
+ls -1 >> ALA_MAG_filenames.txt
+for name in $(cat ALA_MAG_filenames.txt)
+do
+sed 's/^/'$name'&/g' "$name" > "$name"_for_merge.txt
+done
 
-
+cat *.rgi.output.txt_for_merge.txt > sum_ALA_rgi.output.txt
 
 
 
