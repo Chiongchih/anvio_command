@@ -55,7 +55,7 @@ anvi-get-sequences-for-gene-calls -c EJH-MT-"$filename".reformat_contigs.db -o .
 
 #modify and run centrifuge /ibex/scratch/wangc0c/PhD2/Anvio_datasets #runtime 30 min
 anvi-imwport-taxonomy-for-genes -c EJH-MT-"$filename".reformat_contigs.db -i ../centrifuge_reports/EJH-MT-"$filename".anvio_centrifuge_report.txt ../centrifuge_reports/EJH-MT-"$filename".anvio_centrifuge_hits.tsv -p centrifuge
-anvi-profile -c EJH-MT-"$filename".reformat_contigs.db -i ../Bowtie_results/EJH_MT_"$filename"_anvio.bam -T 4
+anvi-profile -c EJH-MT-"$filename".reformat_contigs.db -i ../Bowtie_results/EJH_MT_"$filename"_anvio.bam -T 4 --cluster-contigs
 
 salloc -n 1 -N 1 --time=12:00:00 --mem=60G  bash -l
 module load miniconda3/4.7.12.1
