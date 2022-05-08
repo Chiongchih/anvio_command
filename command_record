@@ -195,6 +195,11 @@ done
 
 cat *.rgi.output.txt_for_merge.txt > sum_ALA_rgi.output.txt
 
+makeblastdb -in .fasta -dbtype nucl -parse_seqids -hash_index -out MGEsdb1
+
+prodigal -q -i EJH-MT-042220.reformat_contigs.fa -o EJH-MT-042220.reformat_contigs.fa.genes -a EJH-MT-042220.reformat_contigs.fa.proteins.faa -p meta
+
+
 
 
 
